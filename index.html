@@ -377,7 +377,7 @@ canvas{display:none;}
       </select></div>
       <div class="section-label">Writing Prompts</div>
       <div class="field"><label>Prompt 1 - First Write</label><textarea id="s-wp1" style="min-height:90px;"></textarea></div>
-      <div class="field"><label>Prompt 2 - Rewrite</label><textarea id="s-wp2; style="min-height:90px;"></textarea></div>
+      <div class="field"><label>Prompt 2 - Rewrite</label><textarea id="s-wp2" style="min-height:90px;"></textarea></div>
       <div class="section-label">Default Image Style</div>
       <div class="field"><textarea id="s-imgstyle" style="min-height:70px;" placeholder="e.g. iPhone camera, photorealistic, no AI look, natural lighting..."></textarea></div>
       <button class="btn-primary" id="btnSaveSettings">Save Settings</button>
@@ -794,7 +794,7 @@ async function genImage() {
   try {
     var url = '';
     if (imgProv === 'pollinations') {
-      url = 'https://image.pollinations.ai/p/' + encodeURIComponent(targetPrompt) + '?width=' + w + '&height=' + h + '&seed=' + Math.floor(Math.random()*100000) + '&nologo=true;';
+      url = 'https://image.pollinations.ai/p/' + encodeURIComponent(targetPrompt) + '?width=' + w + '&height=' + h + '&seed=' + Math.floor(Math.random()*100000) + '&nologo=true';
       el('imgResult').src = url;
     } else if (imgProv === 'huggingface') {
       var hfKey = lsGet('k_hf'); if (!hfKey) throw new Error('HuggingFace integration token is missing in configuration.');
