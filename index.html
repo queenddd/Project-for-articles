@@ -863,23 +863,28 @@ async function genPinTitle() {
     setHtml('pin-results', '');
     showStatus('Generating Pinterest Title...', 'Calculating high-performance structures...', 50);
 
-    var sysPrompt = 'You are an expert Pinterest strategist. Output ONLY the generated title adhering strictly to the formatting rules. Do not include any explanations, introductory text, conversational chatter, quotes, or markdown wrappers.';
+    var sysPrompt = 'You are an expert Pinterest strategist. Output ONLY the generated title adhering strictly to formatting rules. Do not include introductory text, conversational chatter, quotes, or markdown wrappers.';
     var usrPrompt = 'Write a Pinterest pin title for the following topic: ' + topic + ', in the niche: ' + niche + '.\n\n' +
       'Rules:\n' +
-      '- Format: [Appeal word + EXACT Topic Keyword + Niche-Appropriate Closer] | [Broad Category] [Rare Trailing Word]\n' +
-      '- Split the title into exactly two phrases using a pipe (|) separator.\n\n' +
+      '- Format: [Appeal word + EXACT Topic Keyword + Niche-Appropriate Closer] | [Mid-Tier Parent Category] [Rare Trailing Word]\n' +
+      '- Split the title into exactly two phrases using a pipe (|) separator.\n' +
+      '- Capitalize the first letter of every word in the title (Title Case) — no lowercase words anywhere, including small words like "with," "and," "for," "in."\n\n' +
       'First phrase:\n' +
       '- Lead with an appeal/filler adjective appropriate to the niche\'s tone (rotate — do not repeat the same word each time).\n' +
-      '- Immediately follow with the topic keyword EXACTLY as provided here: ' + topic + ' — do not reword, reorder, shorten, or paraphrase it in any way.\n' +
-      '- End with a single closer word that YOU determine is the natural fit for the given niche: ' + niche + ' (infer the correct closer rather than picking from a fixed list).\n\n' +
+      '- Immediately follow with the topic keyword EXACTLY as provided here: ' + topic + ' — do not reword, reorder, shorten, or paraphrase it in any way, but apply Title Case capitalization to it.\n' +
+      '- End with a single closer word that fits the given niche: ' + niche + ' — derive it fresh each time based on the niche, do not default to a fixed word (e.g. "Recipes" for food, "Ideas" for decor/DIY, "Outfits" for fashion, "Workouts" for fitness — but always infer the correct one rather than picking from a fixed list).\n\n' +
       'Second phrase:\n' +
       '- Exactly 3 words total.\n' +
-      '- Words 1–2: a broad CATEGORY phrase relevant to the given niche — a general format, method, style, or use-case people commonly browse within that specific niche. Ensure this category phrase represents a very broad or parent category of the title provided. Derive this from the niche and topic, do not default to any fixed category.\n' +
-      '- Word 3: one rare, low-frequency, or abstract trailing word that fits the niche\'s tone (derive fresh, do not default to a fixed word).\n' +
+      '- Words 1–2: a MID-TIER PARENT CATEGORY that represents a SEPARATE, INDEPENDENT classification path from the first phrase — not a parent of the specific item in phrase one, but a different dimension entirely (e.g. if phrase one is a specific dish, phrase two should be a cooking METHOD or FORMAT category, not a broader food-type category the dish already belongs to).\n' +
+      '- This category should be broad enough to have real standalone search volume on its own, sitting one level below the niche\'s top-level vertical — but it must tag a DIFFERENT attribute of the topic (method, format, style, occasion) rather than restate a broader version of the same dish/item type.\n' +
+      '  - Example logic (reference only): for "French Onion Beef Casserole," the correct second-phrase category is a cooking METHOD like "Crockpot" (a different dimension) — NOT "Casseroles" or "Beef Recipes" (which are direct vertical parents).\n' +
+      '  - In other niches, apply the same logic: pick a category that classifies a different facet of the topic — e.g. Home Decor: topic "Boho Living Room," second-phrase category could be "Small Space" (room-size dimension); Fashion: topic "Plaid Flannel Shirt," second-phrase category could be "Fall Layering" (occasion/season dimension).\n' +
+      '- Word 3: one rare, low-frequency, or abstract trailing word that fits the niche\'s tone (rotate — do not default to a fixed word).\n' +
       '- Do not add a 4th word.\n' +
-      '- The full 3-word phrase should not exist as a common searched term, even though the broad category (words 1–2) is high-volume on its own.\n\n' +
+      '- The full 3-word phrase should not exist as a common searched term, even though the mid-tier category (words 1–2) is high-volume on its own.\n\n' +
       '- Keep total length under 100 characters.\n' +
       '- Do not use exclamation points or emojis.\n' +
+      '- Every word in the final title must be capitalized (Title Case throughout, both phrases).\n' +
       '- Output only the title, nothing else.';
 
     var result = await callAI(sysPrompt, usrPrompt);
